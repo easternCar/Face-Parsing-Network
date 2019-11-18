@@ -12,5 +12,5 @@ CelebA-HQ Dataset https://github.com/switchablenorms/CelebAMask-HQ
 
 The network layer codes(like batch normalization, convolution...) was refer to https://github.com/DAA233/generative-inpainting-pytorch
 
-<img srd="https://user-images.githubusercontent.com/10590942/69032733-88e28800-0a20-11ea-8712-014a49eb3458.png"/>
+<img src="https://user-images.githubusercontent.com/10590942/69032733-88e28800-0a20-11ea-8712-014a49eb3458.png"/>
 (This examples are outputs of LFW and CelebA using the model trained on CelebA-HQ dataset)
