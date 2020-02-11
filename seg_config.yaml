@@ -1,0 +1,51 @@
+# data parameters
+#dataset_name: imagenet
+dataset_name: celeba-hq
+data_with_subfolder: False
+all_data_path: F:/DB/celeba/CelebA-HQ/train/CelebA-HQ_img_train/
+gt_data_path: F:/DB/celeba/CelebA-HQ/train/CelebA-HQ_anno_train/
+test_data_path: F:/DB/celeba/CelebA-HQ/test/CelebA-HQ_img_val/
+
+output_test_dir: ./output/
+resume: ./
+resume_iter: 300000
+
+batch_size: 24
+image_shape: [128, 128, 3]
+mask_batch_same: True
+mask_center_fixed: True
+max_delta_shape: [0, 0]
+margin: [0, 0]
+discounted_mask: True
+spatial_discounting_gamma: 0.9
+random_crop: False    # for dataset image loading
+mask_type: hole     # hole | mosaic
+mosaic_unit_size: 12
+# training parameters
+expname: benchmark
+cuda: True
+
+gpu_ids: [0]    # set the GPU ids to use, e.g. [0] or [1, 2]
+num_workers: 1
+lr: 0.0001
+lr_decay: 0.95
+momentum: 0.95
+weight_decay: 0.0005
+beta1: 0.5
+beta2: 0.9
+niter: 500000
+print_iter: 100
+viz_iter: 1000
+viz_max_out: 16
+snapshot_save_iter: 5000
+
+# loss weight
+coarse_l1_alpha: 1.2
+l1_loss_alpha: 1.2
+ae_loss_alpha: 1.2
+pyramid_loss_alpha : 1.0
+infer_loss_alpha : 1.2
+global_wgan_loss_alpha: 1.
+gan_loss_alpha: 0.001
+wgan_gp_lambda: 10
+
