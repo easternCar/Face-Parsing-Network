@@ -3,7 +3,7 @@
 * Generative Face Completion [Y. Li, 2017] https://arxiv.org/abs/1704.05838 을 위해 구현한 네트워크
 * 위 Generative Face Completion에 쓰인 'Object contour detection with a fully convolutional encoder-decoder network [J. Yang, 2016]' 를 PyTorch 기반으로 구현한 것
 * 사용 DB는 CelebA-HQ 데이터베이스로, 30,000개의 이미지를 포함하며 16개의 얼굴 부위가 세그멘테이션 되어있음
- (GT는 배경은 0, 각 부위 클래스는 1~16의 숫사로 레이블링 되어있음)
+ (GT는 배경은 0, 각 부위 클래스는 1~16의 숫사로 레이블링 되어있음, https://drive.google.com/open?id=1oR4Ja2rO9k66zV8JTLtdOVrCnW7zH0xW에 30,000개의 이미지와 GT 이미지 업로드해두었음)
 
 * 30,000개의 이미지를 모두 가지고 학습한 모델 : https://drive.google.com/open?id=1e38G_bTvsktDkgZRyG-V7Yk6gR9yO7u3
   CelebA-HQ를 모두 가지고 학습한 Parsing 네트워크로 다른 얼굴 DB(LFW, CelebA)에서 Ground-Truth를 만들기 위해 사용한 모델임
