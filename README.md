@@ -10,8 +10,6 @@ Used for :
 Used Dataset :
 [CelebA-HQ Dataset](https://github.com/switchablenorms/CelebAMask-HQ)
 
-[I divided training&test set including annotation images and it is available at [Here](https://drive.google.com/file/d/1SD4K5WLm6IFcVp0vRWwm-bQIP4ZitfrE/view?usp=sharing) (amount to 3GB)]
-
 The network layer codes(like batch normalization, convolution...) was refer to [Context Attention](https://github.com/DAA233/generative-inpainting-pytorch)
 
 -------------------------
