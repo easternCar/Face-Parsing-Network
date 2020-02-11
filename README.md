@@ -16,4 +16,5 @@ The network layer codes(like batch normalization, convolution...) was refer to h
 
 
 -------------------------
-
++ Trained PyTorch model using all 30,000 images from CelebA-HQ dataset : https://drive.google.com/open?id=1e38G_bTvsktDkgZRyG-V7Yk6gR9yO7u3
+(This pre-trained model was for making ground-truth for other face dataset)
