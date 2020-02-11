@@ -14,7 +14,10 @@ CelebA-HQ Dataset https://github.com/switchablenorms/CelebAMask-HQ
 
 The network layer codes(like batch normalization, convolution...) was refer to https://github.com/DAA233/generative-inpainting-pytorch
 
-
 -------------------------
 + Trained PyTorch model using all 30,000 images from CelebA-HQ dataset : https://drive.google.com/open?id=1e38G_bTvsktDkgZRyG-V7Yk6gR9yO7u3
 (This pre-trained model was for making ground-truth for other face dataset)
+
+<samples>
+<img src="https://user-images.githubusercontent.com/10590942/69032733-88e28800-0a20-11ea-8712-014a49eb3458.png" width="90%"></img>
+Trained with 30,000 CelebA-HQ dataset and applied it to LFW and CelebA dataset using that pre-trained model
