@@ -21,3 +21,5 @@ The network layer codes(like batch normalization, convolution...) was refer to [
 <samples>
 <img src="https://user-images.githubusercontent.com/10590942/69032733-88e28800-0a20-11ea-8712-014a49eb3458.png" width="90%"></img>
 Trained with 30,000 CelebA-HQ dataset and applied it to LFW and CelebA dataset using that pre-trained model
+
+PyTorch 1.1 + Python3.6
