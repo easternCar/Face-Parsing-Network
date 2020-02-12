@@ -70,46 +70,6 @@ class Seg_Trainer(nn.Module):
         return iteration
 
 
-    # for check the segmentation result with color
-    def get_parsing_labels(self):
-        # background + 16 components
-        return np.asarray([[0, 0, 0],
-                          [128, 0, 0], [0, 128, 0], [128, 128, 0], [0, 0, 128], [128, 0, 128],
-                          [0, 128, 128], [128, 128, 128], [64, 0, 0], [192, 0, 0], [64, 128, 0],
-                          [192, 128, 0], [64, 0, 128], [192, 0, 128], [64, 128, 128], [192, 128,128],
-                          [0, 64, 0]])
-
-
-    def encode_segmap(self, mask):
-        mask = mask.astype(int)
-        label_mask = np.zeros((mask.shape[0], mask.shape[1]), dtype=np.int16)
-        # pick pallete table from above and paint each values
-        for i, label in enumerate(self.get_parsing_labels()):
-            label_mask[np.where(np.all(mask == label, axis=-1))[:2]] = i
-        label_mask = label_mask.astype(int)
-
-        return label_mask
-
-    def decode_segmap(self, temp, plot=False):
-        label_colors = self.get_parsing_labels()
-        r = temp.copy()
-        g = temp.copy()
-        b = temp.copy()
-
-        for l in range(0, self.class_num):
-            r[temp == l] = label_colors[l, 0]
-            g[temp == l] = label_colors[l, 1]
-            b[temp == l] = label_colors[l, 2]
-
-        rgb = np.zeros((temp.shape[0], temp.shape[1], 3))
-        rgb[:, :, 0] = r
-        rgb[:, :, 1] = g
-        rgb[:, :, 2] = b
-
-        return rgb
-
-
-
     #inputs
     def CrossEntropyLoss2d(self, inputs, targets, weight=None):
         n, c, h, w = inputs.size()

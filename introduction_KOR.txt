@@ -14,12 +14,36 @@
 <구성 파일>
 seg_config.yaml : config 파일. DB 경로 및 이미지 크기 등은 여기서 수정함
 seg_train.py : 학습 시작 코드
+seg_inference.py : 학습된 checkpoint에서 테스트 셋에 parsing 수행
 seg_trainer.py : 학습에 필요한 네트워크 및 loss 처리를 하는 코드
 network_seg_contour.py : parsing 네트워크
 utils/* : 로그 출력 및 데이터셋 구조체 관련 코드
 
-<실행방법>
-python seg_train.py
+<실행방법 - 학습>
+python seg_train.py 으로 바로 실행 가능, 시작 전에 seg_config.yaml에서 다음과 같은 것들을 설정해야 함
+
+- 사용할 gpu 번호 (gpu_ids, num_workers)
+- 사용할 배치 크기(batch_size), 
+- 학습 데이터 이미지가 담긴 디렉터리(all_data_path)
+- 학습 데이터 이미지에 해당하는 세그멘테이션 GT가 담긴 디렉터리(gt_path)
+- 일정 iteration마다 validation 셋에 parsing을 테스트해보고 결과를 확인하기 위해 사용할 이미지 디렉터리 (test_data_path) [학습에 영향을 주진 않음)
+- 위 test_data_path의 결과를 저장해볼 디렉터리 (output_test_path)
+- 혹시 이전에 사용하던 학습을 이어서 하려면 resume의 정보를 넣는다 (resume, resume_iter)
+- 학습할 iteration 횟수 (niter)
+
+
+<실행방법 - 테스트>
+python seg_inference.py 으로 바로 실행 가능. 시작 전에 seg_config.yaml에서 다음과 같은 것들을 설정해야 함
+
+- 사용할 gpu 번호 (gpu_ids, num_workers)
+- 사용할 배치 크기(batch_size)
+- 테스트를 위해 사용할 이미지 디렉터리 (test_data_path) [학습에 영향을 주진 않음)
+- 테스트의 결과를 저장해볼 디렉터리 (output_test_path)
+- checkpoint 파일을 불러오기 위해 사용할 resume의 정보 (resume, resume_iter)
+
+(+) 혹시 이미지 결과를 세그멘테이션 클래스별로 RGB 색깔을 주어 출력해보고 싶다면 seg_inference.py의 VIEW_COLORED_SEGMENTATION을 True로 설정한다.
+    False로 설정하면 각 클래스별로 레이블 번호가 담긴다(배경은 0, 각 얼굴 부위가 1~16...)
+
 
 <DB 경로 및 설정>
 seg_config.yaml에서 설정 변경 가능

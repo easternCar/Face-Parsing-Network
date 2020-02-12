@@ -4,13 +4,13 @@ dataset_name: celeba-hq
 data_with_subfolder: False
 all_data_path: F:/DB/celeba/CelebA-HQ/train/CelebA-HQ_img_train/
 gt_data_path: F:/DB/celeba/CelebA-HQ/train/CelebA-HQ_anno_train/
-test_data_path: F:/DB/celeba/CelebA-HQ/test/CelebA-HQ_img_val/
+test_data_path: F:/DB/celeba/CelebA/Img/img_for_FC/test/
 
-output_test_dir: ./output/
-resume: ./
+output_test_dir: F:/DB/celeba/CelebA-HQ/parsing_output/
+resume: F:/DB/celeba/CelebA-HQ/
 resume_iter: 300000
 
-batch_size: 24
+batch_size: 12
 image_shape: [128, 128, 3]
 mask_batch_same: True
 mask_center_fixed: True

@@ -484,6 +484,51 @@ def get_config(config):
         return yaml.load(stream)
 
 
+
+# for check the segmentation result with color
+def get_parsing_labels():
+    # background + 16 components
+    return np.asarray([[0, 0, 0],
+                      [128, 0, 0], [0, 128, 0], [128, 128, 0], [0, 0, 128], [128, 0, 128],
+                      [0, 128, 128], [128, 128, 128], [64, 0, 0], [192, 0, 0], [64, 128, 0],
+                      [192, 128, 0], [64, 0, 128], [192, 0, 128], [64, 128, 128], [192, 128,128],
+                      [0, 64, 0]])
+
+
+def encode_segmap(mask):
+    mask = mask.astype(int)
+    label_mask = np.zeros((mask.shape[0], mask.shape[1]), dtype=np.int16)
+    # pick pallete table from above and paint each values
+    for i, label in enumerate(get_parsing_labels()):
+        label_mask[np.where(np.all(mask == label, axis=-1))[:2]] = i
+    label_mask = label_mask.astype(int)
+
+    return label_mask
+
+
+# for colored output of segmentation
+def decode_segmap(temp, plot=False):
+    label_colors = get_parsing_labels()
+    class_num = 17
+    r = temp.copy()
+    g = temp.copy()
+    b = temp.copy()
+
+    for l in range(0, class_num):
+        r[temp == l] = label_colors[l, 0]
+        g[temp == l] = label_colors[l, 1]
+        b[temp == l] = label_colors[l, 2]
+
+    rgb = np.zeros((temp.shape[0], temp.shape[1], 3))
+    rgb[:, :, 0] = r
+    rgb[:, :, 1] = g
+    rgb[:, :, 2] = b
+
+    return rgb
+
+
+
+
 # Get model list for resume
 def get_model_list(dirname, key, iteration=0):
     if os.path.exists(dirname) is False:

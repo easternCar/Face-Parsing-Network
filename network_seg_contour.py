@@ -5,7 +5,7 @@ from torch.nn.utils import spectral_norm as spectral_norm_fn
 from torch.nn.utils import weight_norm as weight_norm_fn
 
 class Parser(nn.Module):
-    def __init__(self, config, use_cuda, device_ids):
+    def __init__(self, config, use_cuda, device_ids): # config is not used..
         super(Parser, self).__init__()
         self.input_dim = 3
         self.class_num = 17      # (16 components + backgorund)
