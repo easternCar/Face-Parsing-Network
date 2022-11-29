@@ -17,11 +17,11 @@ class Parse_Dataset(data.Dataset):
     def __init__(self, data_path, gt_path, image_shape, with_subfolder=False, random_crop=True, return_name=False):
         super(Parse_Dataset, self).__init__()
         if with_subfolder:
-            #self.samples = self._find_samples_in_subfolders(data_path)
-            self.samples = self._find_samples_in_subfolders(gt_path)
+            self.samples = self._find_samples_in_subfolders(data_path)
+            #self.samples = self._find_samples_in_subfolders(gt_path)
         else:
-            #self.samples = [x for x in listdir(data_path) if is_image_file(x)]
-            self.samples = [x for x in listdir(gt_path) if is_image_file(x)]
+            self.samples = [x for x in listdir(data_path) if is_image_file(x)]
+            #self.samples = [x for x in listdir(gt_path) if is_image_file(x)]
 
         self.data_path = data_path
         self.gt_path = gt_path # because gt has fewer images, we have to fix the number same with gt images
@@ -37,37 +37,24 @@ class Parse_Dataset(data.Dataset):
 
     def __getitem__(self, index):
 
-        # first, load gt image
+        # first, load train image
+        img_path = os.path.join(self.data_path, self.samples[index])
+        orig_img = default_loader(img_path)
+        
+        # second, get gt image (same name with '.png')
         gt_path = os.path.join(self.gt_path, self.samples[index])
-        img = default_loader(gt_path, chan='L')
-
-        # get original image for GT images
-        # png_to_jpg_ext = self.samples[index]
-
-
-        original_path = os.path.join(self.data_path, self.samples[index])
-        original_path = original_path.replace('png', 'jpg')
-
-        # but, if the original image is not exist, skip it
-        orig_img = default_loader(original_path)
-
-
-        #img_path = os.path.join(self.data_path, self.gt_samples[index])
-
-        #print("====img(labeled)")
-        #print(img.size)
+        gt_path = gt_path.replace('jpg', 'png')
+        gt_img = default_loader(gt_path, chan='L')
 
 
         if self.random_crop:
+
+            imgw, imgh = orig_img.size
+            
             # GT IMAGE
-
-            # GT IMAGE -> 128*128*3 -----> 128*128*9
-
-            imgw, imgh = img.size
-
             if imgh < self.image_shape[0] or imgw < self.image_shape[1]:
-                img = transforms.Resize(min(self.image_shape))(img)
-            img = transforms.RandomCrop(self.image_shape)(img)
+                gt_img = transforms.Resize(min(self.image_shape))(gt_img)
+            gt_img = transforms.RandomCrop(self.image_shape)(gt_img)
 
             # ORIGINAL IMAGE
             imgw, imgh = orig_img.size
@@ -76,23 +63,23 @@ class Parse_Dataset(data.Dataset):
             orig_img = transforms.RandomCrop(self.image_shape)(orig_img)
 
         else:
-            img = transforms.Resize(self.image_shape)(img)
-            img = transforms.RandomCrop(self.image_shape)(img)
+            # GT
+            gt_img = transforms.Resize(self.image_shape)(gt_img)
+            gt_img = transforms.RandomCrop(self.image_shape)(gt_img)
+            # ORIG
             orig_img = transforms.Resize(self.image_shape)(orig_img)
             orig_img = transforms.RandomCrop(self.image_shape)(orig_img)
-
 
         # img : (0 ~ 15), we have to convert it to 16 channel
         #img = np.array(img, dtype=np.int32)
 
-        img = np.array(img, dtype=np.uint8)
+        gt_img = np.array(gt_img, dtype=np.uint8)
 
         #print("max : " + str(img.max()) + ", low : " + str(img.min()))
         #img = transforms.ToTensor()(img).int() # turn the image to a tensor
-        img = torch.from_numpy(img).long()
+        gt_img = torch.from_numpy(gt_img).long()
         #print(">max : " + str(img.max()) + ", low : " + str(img.min()))
         #\img = normalize(img)
-
 
 
         orig_img = transforms.ToTensor()(orig_img)  # turn the image to a tensor
@@ -100,12 +87,13 @@ class Parse_Dataset(data.Dataset):
 
         raw_name = self.samples[index].split('.')[0]
 
+        #print(str(img.size()) + " ---- " + str(orig_img.size()))
 
         # =============================== OUTPUT IMAGE CAUTION SIZE!!!
-        #target = np.zeros([self.n_classes, 128, 128])
-        target = np.zeros([self.n_classes, 256, 256])
+        target = np.zeros([self.n_classes, 128, 128])
+        #target = np.zeros([self.n_classes, 256, 256])
         for c in range(self.n_classes):
-            target[c][img == c] = 1
+            target[c][gt_img == c] = 1
 
         target = torch.from_numpy(target).float()
 
@@ -118,9 +106,9 @@ class Parse_Dataset(data.Dataset):
 
         # RETURN (NAME), GT, TARGET(ONE-HOT), ORIG
         if self.return_name:
-            return raw_name, img, target, orig_img
+            return raw_name, gt_img, target, orig_img
         else:
-            return img, target, orig_img
+            return gt_img, target, orig_img
 
     def _find_samples_in_subfolders(self, dir):
         """

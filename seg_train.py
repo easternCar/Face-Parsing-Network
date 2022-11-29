@@ -10,7 +10,6 @@ from seg_trainer import Seg_Trainer
 import torch
 import torch.nn as nn
 import torch.backends.cudnn as cudnn
-from tensorboardX import SummaryWriter
 from utils.logger import get_logger
 from utils.dataset import Parse_Dataset
 from utils.test_dataset import Test_Dataset
@@ -46,7 +45,6 @@ def main():
     if not os.path.exists(checkpoint_path):
         os.makedirs(checkpoint_path)
     shutil.copy(args.config, os.path.join(checkpoint_path, os.path.basename(args.config)))
-    writer = SummaryWriter(log_dir=checkpoint_path)
     logger = get_logger(checkpoint_path)    # get logger and configure it at the first call
     if not os.path.exists(config['output_test_dir']):
         os.makedirs(config['output_test_dir'])
@@ -151,12 +149,12 @@ def main():
 
 
             # [print loss] (in this, 1 print for 30 iteration)
-            if iteration % 30 == 0:
+            if iteration % 50 == 0:
                 print("Epoch [%d/%d] Loss: %.10f lr:%.6f" % (iteration ,config['niter'], loss.data, lr))
 
 
             #=============== TEST ===================
-            if iteration % 50 == 0:
+            if iteration % 5000 == 0:
                 try:
                     test_img_names, test_orig_images = iterable_test_loader.next()
                 except StopIteration:
@@ -170,11 +168,11 @@ def main():
                 test_predict = trainer.module.netParser(test_orig_images)
 
 
-                for test_idx in range(test_orig_images.shape[0]):
+                for test_idx in range(config['test_batch']):
                     pred_out = torch.argmax(test_predict[test_idx], dim=0)
                     test_sam = pred_out.cpu().numpy()
 
-                    cv2.imwrite(config['output_test_dir'] + test_img_names[test_idx] + '.png', test_sam)
+                    cv2.imwrite(os.path.join(config['output_test_dir'], test_img_names[test_idx] + '.png'), test_sam)
 
 
 
