@@ -19,9 +19,6 @@ parser.add_argument('--config', type=str, default='./seg_config.yaml',
 parser.add_argument('--seed', type=int, help='manual seed')
 
 def main():
-    # if you want to see output images with colored segmentation?
-    VIEW_COLORED_SEGMENTATION = False
-
     # Config file reading
     args = parser.parse_args()
     config = get_config(args.config)
@@ -36,16 +33,16 @@ def main():
         cudnn.benchmark = True
 
 
-        if not os.path.exists(config['output_test_dir']):
-            os.makedirs(config['output_test_dir'])
+    if not os.path.exists(config['output_test_dir']):
+        os.makedirs(config['output_test_dir'])
 
-        # Set random seed
-        if args.seed is None:
-            args.seed = random.randint(1, 10000)
-        random.seed(args.seed)
-        torch.manual_seed(args.seed)
-        if cuda:
-            torch.cuda.manual_seed_all(args.seed)
+    # Set random seed
+    if args.seed is None:
+        args.seed = random.randint(1, 10000)
+    random.seed(args.seed)
+    torch.manual_seed(args.seed)
+    if cuda:
+        torch.cuda.manual_seed_all(args.seed)
 
     # first, read images and pick labels with same name
     # we will train all images from HQ dataset
@@ -64,7 +61,7 @@ def main():
                                                   shuffle=False, num_workers=config['num_workers'])
 
         # [Trainer] (in test, not use trainer class directly)
-        netG = Parser(config, cuda, device_ids)
+        netG = Parser(config)
 
         # Get the resume iteration to restart training
         #================== <LOAD CHECKPOINT FILE starting with parser*.pt> ============================
@@ -86,9 +83,12 @@ def main():
         start_iteration = 0
 
         # =============== TEST ===================
-        for iteration in range(start_iteration, config['niter'] + 1):
-            print('ITERATION {}..... [{}/{}]'.format(iteration, iteration*config['batch_size'],
-                                                     int(len(test_dataset.samples)/config['batch_size'])))
+        total_iter = int(len(test_dataset.samples) / config['test_batch']) + 1
+        
+        #for iteration in range(start_iteration, config['niter'] + 1):
+        for iteration in range(total_iter):
+            print('ITERATION {}..... [{}/{}]'.format(iteration, iteration*config['test_batch'],
+                                                     int(len(test_dataset.samples))))
             try:
                 test_img_names, test_orig_images = iterable_test_loader.next()
             except StopIteration:
@@ -105,11 +105,11 @@ def main():
                 pred_out = torch.argmax(test_predict[test_idx], dim=0)
                 test_sam = pred_out.cpu().numpy()
 
-                if VIEW_COLORED_SEGMENTATION:
+                if config['save_result_as_colored']:
                     decoded = decode_segmap(test_sam)
-                    misc.imsave(config['output_test_dir'] + test_img_names[test_idx] + '.png', decoded)
+                    misc.imsave(os.path.join(config['output_test_dir'], test_img_names[test_idx].split('.')[0] + '.png'), decoded)
                 else:
-                    cv2.imwrite(config['output_test_dir'] + test_img_names[test_idx] + '.png', test_sam)
+                    cv2.imwrite(os.path.join(config['output_test_dir'], test_img_names[test_idx].split('.')[0] + '.png'), test_sam)
 
 
     except Exception as e:  # for unexpected error logging (set

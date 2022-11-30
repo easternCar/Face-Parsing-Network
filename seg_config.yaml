@@ -4,15 +4,17 @@ dataset_name: celeba-hq
 data_with_subfolder: False      # is the dataset located in subfolder?
 all_data_path: /celebahq_parsing/train   # train_data dir
 gt_data_path: /celebahq_parsing/gt   # gt_data dir
-test_data_path: /celebahq_parsing/test   # test dir
+test_data_path: test_samples   # test dir
 
-checkpoint_path: checkpoints_
+checkpoint_path: checkpoints
 output_test_dir: output     # test results' save path
-resume: checkpoints_        # if not, leave this value blank
-resume_iter: 50000          # if you use resume checkpoint, pick iter num
+resume: checkpoints        # if not, leave this value blank
+resume_iter: 100000          # if you use resume checkpoint, pick iter num
+save_result_as_colored: True  # If true, test outputs are saved as colored image  (RGB)
+                              # If not, the test outputs are saved as label number (0~15)
 
 batch_size: 12    # training batch
-test_batch: 12    # test batch
+test_batch: 1    # test batch
 
 image_shape: [128, 128, 3]
 random_crop: False    # for dataset image loading

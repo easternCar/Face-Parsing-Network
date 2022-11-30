@@ -20,13 +20,23 @@ The network layer codes(like batch normalization, convolution...) was refer to [
   - Ground-truth image directory
     + 1.png
     + 2.png
-We provide some example of training, gt, test set which are cropped and resized from CelebA-HQ dataset
+
 
 
 -------------------------
-+ Trained PyTorch model using all 30,000 images from CelebA-HQ dataset : [Here](https://drive.google.com/open?id=1e38G_bTvsktDkgZRyG-V7Yk6gR9yO7u3)
-(This pre-trained model was for making ground-truth for other face dataset)
-+ [Here to download](https://drive.google.com/open?id=1oR4Ja2rO9k66zV8JTLtdOVrCnW7zH0xW) 30,000 CelebA-HQ images including parsing ground-truth images
++ Trained PyTorch model from CelebA-HQ dataset : [Here](https://drive.google.com/file/d/1Rx9R-HOax7-Y3C4lwR_KIi_HdEYSfqkQ/view?usp=share_link)
+
+
+Quick inference using pre-trained model
+-----------
+```
+$ cp parser_00100000.pt checkpoints/
+$ python seg_inference.py
+```
+
+Then samples are saved in output directory
+
+----------
 
 <samples>
 <img src="https://user-images.githubusercontent.com/10590942/69032733-88e28800-0a20-11ea-8712-014a49eb3458.png" width="90%"></img>
