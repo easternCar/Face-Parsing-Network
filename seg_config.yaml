@@ -1,28 +1,22 @@
 # data parameters
 #dataset_name: imagenet
-dataset_name: celeba-hq
-data_with_subfolder: False
-all_data_path: F:/DB/celeba/CelebA-HQ/train/CelebA-HQ_img_train/
-gt_data_path: F:/DB/celeba/CelebA-HQ/train/CelebA-HQ_anno_train/
-test_data_path: F:/DB/celeba/CelebA/Img/img_for_FC/test/
+dataset_name: celeba-hq       
+data_with_subfolder: False      # is the dataset located in subfolder?
+all_data_path: /celebahq_parsing/train   # train_data dir
+gt_data_path: /celebahq_parsing/gt   # gt_data dir
+test_data_path: /celebahq_parsing/test   # test dir
 
-output_test_dir: F:/DB/celeba/CelebA-HQ/parsing_output/
-resume: F:/DB/celeba/CelebA-HQ/
-resume_iter: 300000
+checkpoint_path: checkpoints_
+output_test_dir: output     # test results' save path
+resume: checkpoints_        # if not, leave this value blank
+resume_iter: 50000          # if you use resume checkpoint, pick iter num
 
-batch_size: 12
+batch_size: 12    # training batch
+test_batch: 12    # test batch
+
 image_shape: [128, 128, 3]
-mask_batch_same: True
-mask_center_fixed: True
-max_delta_shape: [0, 0]
-margin: [0, 0]
-discounted_mask: True
-spatial_discounting_gamma: 0.9
 random_crop: False    # for dataset image loading
-mask_type: hole     # hole | mosaic
-mosaic_unit_size: 12
 # training parameters
-expname: benchmark
 cuda: True
 
 gpu_ids: [0]    # set the GPU ids to use, e.g. [0] or [1, 2]
@@ -33,19 +27,7 @@ momentum: 0.95
 weight_decay: 0.0005
 beta1: 0.5
 beta2: 0.9
-niter: 500000
+niter: 100000
 print_iter: 100
-viz_iter: 1000
-viz_max_out: 16
+viz_iter: 2500
 snapshot_save_iter: 5000
-
-# loss weight
-coarse_l1_alpha: 1.2
-l1_loss_alpha: 1.2
-ae_loss_alpha: 1.2
-pyramid_loss_alpha : 1.0
-infer_loss_alpha : 1.2
-global_wgan_loss_alpha: 1.
-gan_loss_alpha: 0.001
-wgan_gp_lambda: 10
-

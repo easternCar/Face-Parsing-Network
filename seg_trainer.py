@@ -20,7 +20,7 @@ class Seg_Trainer(nn.Module):
         self.class_num = 17      # (16 components + backgorund for CelebA-HQ)
 
         # Parser network
-        self.netParser = Parser(self.config, self.use_cuda, self.device_ids)
+        self.netParser = Parser(self.config)
         self.optimizerSGD = torch.optim.SGD(self.netParser.parameters(), lr=self.config['lr'],
                                          momentum=self.config['momentum'], weight_decay=self.config['weight_decay'])
         if self.use_cuda:

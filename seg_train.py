@@ -3,7 +3,7 @@ import time
 import shutil
 import os
 from argparse import ArgumentParser
-from utils.tools import get_config
+from utils.tools import get_config, decode_segmap
 
 import cv2
 from seg_trainer import Seg_Trainer
@@ -38,9 +38,7 @@ def main():
         cudnn.benchmark = True
 
     # ----- Directory to save checkpoint file
-    checkpoint_path = os.path.join('checkpoints_',
-                                   config['dataset_name'],
-                                   'parser' + '_' + config['expname'])
+    checkpoint_path = os.path.join(config['checkpoint_path'])
 
     if not os.path.exists(checkpoint_path):
         os.makedirs(checkpoint_path)
@@ -154,7 +152,7 @@ def main():
 
 
             #=============== TEST ===================
-            if iteration % 5000 == 0:
+            if iteration % config['viz_iter'] == 0:
                 try:
                     test_img_names, test_orig_images = iterable_test_loader.next()
                 except StopIteration:
@@ -167,12 +165,15 @@ def main():
                 # <predict test set>
                 test_predict = trainer.module.netParser(test_orig_images)
 
-
                 for test_idx in range(config['test_batch']):
                     pred_out = torch.argmax(test_predict[test_idx], dim=0)
                     test_sam = pred_out.cpu().numpy()
 
-                    cv2.imwrite(os.path.join(config['output_test_dir'], test_img_names[test_idx] + '.png'), test_sam)
+                    if config['save_result_as_colored']:
+                        decoded = decode_segmap(test_sam)
+                        misc.imsave(os.path.join(config['output_test_dir'], test_img_names[test_idx].split('.')[0] + '.png'), decoded)
+                    else:
+                        cv2.imwrite(os.path.join(config['output_test_dir'], test_img_names[test_idx].split('.')[0] + '.png'), test_sam)
 
 
 

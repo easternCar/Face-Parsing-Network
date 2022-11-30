@@ -5,13 +5,11 @@ from torch.nn.utils import spectral_norm as spectral_norm_fn
 from torch.nn.utils import weight_norm as weight_norm_fn
 
 class Parser(nn.Module):
-    def __init__(self, config, use_cuda, device_ids): # config is not used..
+    def __init__(self, config): # config is not used..
         super(Parser, self).__init__()
         self.input_dim = 3
         self.class_num = 17      # (16 components + backgorund)
         self.cnum = 64
-        self.use_cuda = use_cuda
-        self.device_ids = device_ids
 
         # 128 * 128 * cnum
         self.conv1_1 = gen_conv(self.input_dim, self.cnum, 7, 1, 1,)

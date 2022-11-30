@@ -13,6 +13,17 @@ Used Dataset :
 The network layer codes(like batch normalization, convolution...) was refer to [Context Attention](https://github.com/DAA233/generative-inpainting-pytorch)
 
 -------------------------
++ Dataset and ground-truth should be located as:
+  - Training image directory
+    + 1.jpg
+    + 2.jpg
+  - Ground-truth image directory
+    + 1.png
+    + 2.png
+We provide some example of training, gt, test set which are cropped and resized from CelebA-HQ dataset
+
+
+-------------------------
 + Trained PyTorch model using all 30,000 images from CelebA-HQ dataset : [Here](https://drive.google.com/open?id=1e38G_bTvsktDkgZRyG-V7Yk6gR9yO7u3)
 (This pre-trained model was for making ground-truth for other face dataset)
 + [Here to download](https://drive.google.com/open?id=1oR4Ja2rO9k66zV8JTLtdOVrCnW7zH0xW) 30,000 CelebA-HQ images including parsing ground-truth images
