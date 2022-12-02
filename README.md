@@ -25,7 +25,7 @@ The network layer codes(like batch normalization, convolution...) was refer to [
 
 -------------------------
 + Trained PyTorch model from CelebA-HQ dataset : [Here](https://drive.google.com/file/d/1Rx9R-HOax7-Y3C4lwR_KIi_HdEYSfqkQ/view?usp=share_link)
-
++ Samples of training and ground-truth set : [Download](https://drive.google.com/file/d/1-q1s_4OU9QzLHy_zk-V53DpiIaMlPeVy/view?usp=sharing)
 
 Quick inference using pre-trained model
 -----------

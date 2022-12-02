@@ -2,8 +2,8 @@
 #dataset_name: imagenet
 dataset_name: celeba-hq       
 data_with_subfolder: False      # is the dataset located in subfolder?
-all_data_path: /celebahq_parsing/train   # train_data dir
-gt_data_path: /celebahq_parsing/gt   # gt_data dir
+all_data_path: sample_dataset/train   # train_data dir
+gt_data_path: sample_dataset/gt   # gt_data dir
 test_data_path: test_samples   # test dir
 
 checkpoint_path: checkpoints
