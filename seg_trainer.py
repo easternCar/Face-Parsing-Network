@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from network_seg_contour import Parser
+from model.network_seg_contour import Parser
 from utils.tools import get_model_list
 from utils.logger import get_logger
 import numpy as np

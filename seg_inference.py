@@ -7,14 +7,14 @@ import cv2
 import torch
 import torch.nn as nn
 import torch.backends.cudnn as cudnn
-from network_seg_contour import Parser
+from model.network_seg_contour import Parser
 from utils.test_dataset import Test_Dataset
 
 import numpy as np
 import scipy.misc as misc
 
 parser = ArgumentParser()
-parser.add_argument('--config', type=str, default='./seg_config.yaml',
+parser.add_argument('--config', type=str, default='config/seg_config.yaml',
                     help="training configuration")
 parser.add_argument('--seed', type=int, help='manual seed')
 

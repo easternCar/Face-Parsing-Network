@@ -18,7 +18,7 @@ import numpy as np
 import scipy.misc as misc
 
 parser = ArgumentParser()
-parser.add_argument('--config', type=str, default='./seg_config.yaml',
+parser.add_argument('--config', type=str, default='config/seg_config.yaml',
                     help="training configuration")
 parser.add_argument('--seed', type=int, help='manual seed')
 
